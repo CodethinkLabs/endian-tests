@@ -1,0 +1,10 @@
+This is a set of tests designed to test compilers targetting different endiannesses. Some of the tests show different behaviour on each endianness, and others run operations which could be endian-dependent in a badly-implemented compiler, but should show the same results on each endianness.
+
+The following configurations are supported:
+
+gcc on x86_64:   ./runtests LE
+gcc on armv7b:   ./runtests BE
+
+The expected results for each test are stored in expected-output. Tests are considered failed if the stderr or stdout does not match, or if a non-zero exit value is returned.
+
+Failures on armv7b do not necessarily mean the test or the compiler is wrong. This can be due to expected differences between x86_64 and ARM.

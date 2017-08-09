@@ -7,7 +7,7 @@ clean:
 
 simpletests: test-src/*.c test-src/*.cpp
 	mkdir -p test-bin
-	for i in test-src/*.c test-src/*.cpp; do $(CC) -lpthread $(CFLAGS) -o test-bin/`basename $$i .c` $$i; done
+	for i in test-src/*.c test-src/*.cpp; do $(CC) -lpthread $(CFLAGS) -o test-bin/`basename $${i%.*}` $$i; done
 
 complicatedtests: test-src/*/*.c test-src/*.cpp
 	mkdir -p test-bin

@@ -72,12 +72,12 @@ void run_server(unsigned char* sharedmem)
   printf ("Server: connect from address %s\n", inet_ntoa(clientname.sin_addr));
 
   // Read from the socket and write the value into shared memory
-  unsigned int* intSharedMem = (unsigned int*) sharedmem;
+  unsigned int* intSharedMem = (unsigned int*) (sharedmem + SEMAPHORE_SIZE);
   read(socket, &tempValue, 4);
   
   for(j=0;j < 1000000000; j++) {
     for(i=0; i<((SHM_SIZE-SEMAPHORE_SIZE)/sizeof(unsigned int)); i++) {
-      intSharedMem[(SEMAPHORE_SIZE/sizeof(unsigned int))+i] = j;
+      intSharedMem[i] = j;
     }
   }
   intSharedMem[0] = tempValue;
@@ -104,12 +104,15 @@ void run_client(unsigned char* sharedmem)
     exit(1);
   }
 
-  // Write a test value to the socket. The client should store this into the shared memory.
+  // Write a test value to the socket. The server should store this into the shared memory.
   write(sockfd, (unsigned char*) &test_value, 4);
 
   sem_wait( (sem_t*) sharedmem);
+
+  unsigned char* sharedmem_data = sharedmem + SEMAPHORE_SIZE;
+
   // Do not print anything until the server has finished (otherwise output will be nondeterministic)
-  printf("Data in shared memory: %2.2X %2.2X %2.2X %2.2X\n",sharedmem[0], sharedmem[1], sharedmem[2], sharedmem[3]);
+  printf("Data in shared memory: %2.2X %2.2X %2.2X %2.2X\n",sharedmem_data[0], sharedmem_data[1], sharedmem_data[2], sharedmem_data[3]);
 }
 
 int main()
@@ -127,7 +130,7 @@ int main()
     exit(EXIT_FAILURE);
   }
 
-  if(sem_init( (sem_t*) shmaddr + 4, 1, 0)) {
+  if(sem_init( (sem_t*) shmaddr, 1, 0)) {
     perror("sem_init");
     exit(EXIT_FAILURE);
   }

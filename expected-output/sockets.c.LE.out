@@ -1,0 +1,4 @@
+Stored port, converted to network order, as 0x961F
+Layout of port number in memory: 1F 96
+Server: connect from address 127.0.0.1
+Data in shared memory: EF BE AD DE

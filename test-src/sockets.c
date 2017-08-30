@@ -75,7 +75,7 @@ void run_server(unsigned char* sharedmem)
   unsigned int* intSharedMem = (unsigned int*) (sharedmem + SEMAPHORE_SIZE);
   read(socket, &tempValue, 4);
   
-  for(j=0;j < 1000000000; j++) {
+  for(j=0;j < 100000; j++) {
     for(i=0; i<((SHM_SIZE-SEMAPHORE_SIZE)/sizeof(unsigned int)); i++) {
       intSharedMem[i] = j;
     }

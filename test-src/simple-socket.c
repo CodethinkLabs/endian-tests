@@ -37,6 +37,9 @@ void run_server()
     perror ("socket");
     exit (EXIT_FAILURE);
   }
+  int iSetOption = 1;
+  setsockopt(socket_server, SOL_SOCKET, SO_REUSEADDR, (char*)&iSetOption,
+    sizeof(iSetOption));
 
   /* Give the socket a name. */
   name.sin_family = AF_INET;

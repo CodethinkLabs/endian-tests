@@ -1,7 +1,7 @@
 typedef struct {
   short int departmentCode;
   int stockLevel;
-  long unsigned int EAN;
+  long long unsigned int EAN;
   float price;
 } product;
 

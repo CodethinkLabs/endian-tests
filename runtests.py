@@ -76,7 +76,13 @@ def main():
     build_env['CC'] = cc
     build_env['CFLAGS'] = cflags
 
-    subprocess.check_call(['gmake'], env=build_env)
+    make_path = shutil.which('gmake')
+    if not make_path:
+        make_path = shutil.which('make')
+    if not make_path:
+        raise RuntimeError("Neither 'make' nor 'gmake' found")
+
+    subprocess.check_call([make_path], env=build_env)
 
     if os.path.exists('output/'):
         shutil.rmtree('output')

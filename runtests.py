@@ -61,6 +61,8 @@ def main():
         cflags="-lsocket"
     elif machine == "x86_64" and mode == "LE":
         cc="gcc"
+    elif machine == "ppc64" and mode == "BE":
+        cc="gcc"
     elif platform.system() == "AIX" and platform.processor() == "powerpc" and mode == "BE":
         cc="gcc"
 
